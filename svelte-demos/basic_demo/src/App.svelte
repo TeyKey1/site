@@ -1,39 +1,50 @@
 <script>
+    import { onMount } from "svelte";
     import { Stage, Layer, Star } from "svelte-konva";
 
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    let list = [];
-    for (let n = 0; n < 30; n++) {
-        list.push({
-            id: n.toString(),
-            x: Math.random() * width,
-            y: Math.random() * height,
-            rotation: Math.random() * 180,
-            scale: Math.random(),
-        });
-    }
-    let dragItemId = null;
+    const list = [];
+    let dragItemId = $state(null);
+
+    const config = $state({
+        width: 0,
+        height: 0,
+    });
+
+    onMount(() => {
+        config.width = window.innerWidth;
+        config.height = window.innerHeight;
+
+        for (let n = 0; n < 30; n++) {
+            list.push({
+                component: null,
+                id: n.toString(),
+                x: Math.random() * config.width,
+                y: Math.random() * config.height,
+                rotation: Math.random() * 180,
+                scale: Math.random(),
+            });
+        }
+    });
 
     let handleDragStart = (e) => {
         // save drag element:
-        dragItemId = e.detail.target.id();
+        dragItemId = e.target.id();
         // move current element to the top:
         const item = list.find((i) => i.id === dragItemId);
-        item.handle.moveToTop();
+        item.component.handle.moveToTop();
     };
     let handleDragEnd = (e) => {
         const item = list.find((i) => i.id === dragItemId);
         if (!item) {
             return;
         }
-        item.x = e.detail.target.x();
-        item.y = e.detail.target.y();
+        item.x = e.target.x();
+        item.y = e.target.y();
         dragItemId = null;
     };
 </script>
 
-<Stage config={{ width, height }}>
+<Stage {config}>
     <Layer>
         {#each list as item (item.id)}
             <Star
@@ -58,9 +69,9 @@
                     shadowOffsetY: dragItemId === item.id ? 15 : 5,
                     shadowOpacity: 0.6,
                 }}
-                bind:handle={item.handle}
-                on:dragstart={handleDragStart}
-                on:dragend={handleDragEnd}
+                bind:this={item.component}
+                ondragstart={handleDragStart}
+                ondragend={handleDragEnd}
             />
         {/each}
     </Layer>

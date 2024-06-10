@@ -1,12 +1,12 @@
 <script>
     import { Stage, Layer, Group, Star } from "svelte-konva";
 
-    let group;
-    let shouldCache = false;
+    let group = $state();
+    let shouldCache = $state(false);
 
     const list = [];
 
-    for (let n = 0; n < 300; n++) {
+    for (let n = 0; n < 500; n++) {
         list.push({
             id: n.toString(),
             x: Math.random() * window.innerWidth,
@@ -16,13 +16,15 @@
         });
     }
 
-    $: if (group) {
-        if (shouldCache) {
-            group.cache();
-        } else {
-            group.clearCache();
+    $effect(() => {
+        if (group) {
+            if (shouldCache) {
+                group.handle.cache();
+            } else {
+                group.handle.clearCache();
+            }
         }
-    }
+    });
 </script>
 
 <div>
@@ -34,7 +36,7 @@
         }}
     >
         <Layer>
-            <Group bind:handle={group}>
+            <Group bind:this={group}>
                 {#each list as item}
                     <Star
                         config={{

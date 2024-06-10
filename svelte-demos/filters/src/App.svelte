@@ -4,19 +4,19 @@
     import { onMount, tick } from "svelte";
 
     let rectangle;
-    let color = "green";
+    let color = $state("green");
 
     function handleMouseMove() {
         color = Konva.Util.getRandomColor();
         // may need to redraw layer manually due to possible color change
-        rectangle.cache();
+        rectangle.handle.cache();
     }
 
     onMount(async () => {
         // wait for the rectangle handle to be rendered and become defined
         await tick();
 
-        rectangle.cache();
+        rectangle.handle.cache();
     });
 </script>
 
@@ -33,8 +33,8 @@
                 fill: color,
                 shadowBlur: 10,
             }}
-            bind:handle={rectangle}
-            on:mousemove={handleMouseMove}
+            bind:this={rectangle}
+            onmousemove={handleMouseMove}
         />
     </Layer>
 </Stage>

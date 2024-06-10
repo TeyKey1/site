@@ -14,23 +14,22 @@
         // Wait for all handles to become defined
         await tick();
 
-        const centerX = stage.getWidth() / 2;
+        const centerX = stage.handle().getWidth() / 2;
 
         // example of Konva.Animation
         const anim = new Konva.Animation(function (frame) {
-            hexagon.setX(
+            hexagon.handle.setX(
                 amplitude * Math.sin((frame.time * 2 * Math.PI) / period) +
-                    centerX
+                    centerX,
             );
-        }, hexagon.getLayer());
+        }, hexagon.handle.getLayer());
 
         anim.start();
     });
 
     function changeSize(e) {
-        const konvaEvent = e.detail;
         // to() is a method of `Konva.Node` instances
-        konvaEvent.target.to({
+        e.target.to({
             scaleX: Math.random() + 0.8,
             scaleY: Math.random() + 0.8,
             duration: 0.2,
@@ -40,7 +39,7 @@
 
 <Stage
     config={{ width: window.innerWidth, height: window.innerHeight }}
-    bind:handle={stage}
+    bind:this={stage}
 >
     <Layer>
         <Rect
@@ -50,9 +49,9 @@
                 fill: "green",
                 draggable: true,
             }}
-            bind:handle={rect}
-            on:dragstart={changeSize}
-            on:dragend={changeSize}
+            bind:this={rect}
+            ondragstart={changeSize}
+            ondragend={changeSize}
         />
         <RegularPolygon
             config={{
@@ -64,7 +63,7 @@
                 stroke: "black",
                 strokeWidth: 4,
             }}
-            bind:handle={hexagon}
+            bind:this={hexagon}
         />
     </Layer>
 </Stage>

@@ -26,26 +26,26 @@
         };
     }
 
-    let labelConfig = {
+    let labelConfig = $state({
         x: 0,
         y: 0,
         opacity: 0.8,
         visible: false,
-    };
+    });
 
-    let labelTextConfig = {
+    let labelTextConfig = $state({
         text: "",
         fontSize: 18,
         padding: 5,
         fill: "white",
-    };
+    });
 
     function handleMouseEnter(e) {
-        const konvaEvent = e.detail;
+        const target = e.target;
 
-        let hoveredElementPos = konvaEvent.target.getPosition();
-        let hoveredElementRadius = konvaEvent.target.attrs.radius;
-        let hoveredElementName = konvaEvent.target.attrs.name;
+        let hoveredElementPos = target.getPosition();
+        let hoveredElementRadius = target.attrs.radius;
+        let hoveredElementName = target.attrs.name;
 
         labelConfig.x = hoveredElementPos.x;
         labelConfig.y = hoveredElementPos.y - hoveredElementRadius;
@@ -65,8 +65,8 @@
         {#each circles as config}
             <Circle
                 {config}
-                on:mouseenter={handleMouseEnter}
-                on:mouseleave={handleMouseLeave}
+                onmouseenter={handleMouseEnter}
+                onmouseleave={handleMouseLeave}
             />
         {/each}
 

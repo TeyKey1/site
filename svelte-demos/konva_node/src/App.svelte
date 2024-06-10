@@ -1,7 +1,7 @@
 <script>
     import { Stage, Layer, Text, Circle } from "svelte-konva";
 
-    // Will be holding the Konva node reference of the circle
+    // Will be holding the svelte-konva component reference of the circle
     let circle;
 
     function pulseShape(shape) {
@@ -19,22 +19,22 @@
     }
 
     function handleStageClick() {
-        // this event demonstrates how to access the Konva node by binding the handle prop
-        pulseShape(circle);
+        // Now access the konva node using the handle property
+        pulseShape(circle.handle);
     }
 
     function handleCircleClick(e) {
-        // another way to access Konva nodes is to just use the event payload
-        pulseShape(e.detail.target);
+        // another way to access Konva nodes is to just use the event target
+        pulseShape(e.target);
         // prevent bubbling of the click event to the stage
-        e.detail.cancelBubble = true;
+        e.cancelBubble = true;
     }
 </script>
 
 <Stage
     config={{ width: window.innerWidth, height: window.innerHeight }}
-    on:click={handleStageClick}
-    on:tap={handleStageClick}
+    onclick={handleStageClick}
+    ontap={handleStageClick}
 >
     <Layer>
         <Text
@@ -52,10 +52,10 @@
                 radius: 80,
                 fill: "red",
             }}
-            on:click={handleCircleClick}
-            on:tap={handleCircleClick}
-            on:dblclick={handleCircleClick}
-            bind:handle={circle}
+            onclick={handleCircleClick}
+            ontap={handleCircleClick}
+            ondblclick={handleCircleClick}
+            bind:this={circle}
         />
     </Layer>
 </Stage>

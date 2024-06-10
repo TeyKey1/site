@@ -6,6 +6,7 @@
 
     for (let i = 0; i < 10; i++) {
         items.push({
+            component: null,
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
             radius: 50,
@@ -16,13 +17,11 @@
     }
 
     function handleDragstart(e) {
-        const konvaEvent = e.detail;
-
-        const dragItemId = konvaEvent.target.id();
+        const dragItemId = e.target.id();
         const item = items.find((i) => i.id === dragItemId);
 
         // move dragged element to the top using Konva functions
-        item.handle.moveToTop();
+        item.component.handle.moveToTop();
     }
 </script>
 
@@ -30,9 +29,9 @@
     <Layer>
         {#each items as config}
             <Circle
-                bind:config
-                bind:handle={config.handle}
-                on:dragstart={handleDragstart}
+                {config}
+                bind:this={config.component}
+                ondragstart={handleDragstart}
             />
         {/each}
     </Layer>
