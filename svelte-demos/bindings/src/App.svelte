@@ -7,7 +7,7 @@
         height: 0,
     });
 
-    let yellowRingConfig = $state({
+    const yellowRingConfig = $state({
         x: 150,
         y: 150,
         innerRadius: 80,
@@ -34,28 +34,22 @@
         draggable: true,
     });
 
-    const redRingConfigActual = $state({
-        x: redRingConfig.x,
-        y: redRingConfig.y,
-    });
-
     onMount(() => {
         stageConfig.width = window.innerWidth;
         stageConfig.height = window.innerHeight;
     });
-
-    function getActualConfigValues() {
-        redRingConfigActual.x = redRingConfig.x;
-        redRingConfigActual.y = redRingConfig.y;
-    }
 </script>
 
 <div>
-    <Stage config={stageConfig}>
+    <Stage {...stageConfig}>
         <Layer>
-            <Ring config={yellowRingConfig} />
-            <Ring config={redRingConfig} ondragend={getActualConfigValues} />
-            <Ring config={greenRingConfig} staticConfig />
+            <Ring
+                {...yellowRingConfig}
+                bind:x={yellowRingConfig.x}
+                bind:y={yellowRingConfig.y}
+            />
+            <Ring {...redRingConfig} />
+            <Ring {...greenRingConfig} staticConfig />
         </Layer>
     </Stage>
 
@@ -64,8 +58,7 @@
             <b>yellow ring (bound):</b> x: {yellowRingConfig.x}, y: {yellowRingConfig.y}
         </p>
         <p>
-            <b>red ring (not bound):</b> reactive x: {redRingConfig.x}, reactive
-            y: {redRingConfig.y}, actual x: {redRingConfigActual.x}, actual y: {redRingConfigActual.y}
+            <b>red ring (not bound):</b> x: {redRingConfig.x}, y: {redRingConfig.y}
         </p>
         <p>
             <b>green ring (staticConfig):</b> x: {greenRingConfig.x}, y: {greenRingConfig.y}

@@ -1,7 +1,8 @@
 <script>
+    import { onMount } from "svelte";
     import { Stage, Layer, Label, Tag, Text, Circle } from "svelte-konva";
 
-    let circles = [];
+    let circles = $state([]);
 
     const COLORS = [
         "black",
@@ -16,15 +17,17 @@
         "pink",
     ];
 
-    for (let i = 0; i < 10; i++) {
-        circles[i] = {
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            radius: 60 * Math.random() + 20,
-            fill: COLORS[i],
-            name: COLORS[i],
-        };
-    }
+    onMount(() => {
+        for (let i = 0; i < 10; i++) {
+            circles[i] = {
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                radius: 60 * Math.random() + 20,
+                fill: COLORS[i],
+                name: COLORS[i],
+            };
+        }
+    });
 
     let labelConfig = $state({
         x: 0,
@@ -33,12 +36,7 @@
         visible: false,
     });
 
-    let labelTextConfig = $state({
-        text: "",
-        fontSize: 18,
-        padding: 5,
-        fill: "white",
-    });
+    let labelText = $state("");
 
     function handleMouseEnter(e) {
         const target = e.target;
@@ -50,7 +48,7 @@
         labelConfig.x = hoveredElementPos.x;
         labelConfig.y = hoveredElementPos.y - hoveredElementRadius;
 
-        labelTextConfig.text = hoveredElementName;
+        labelText = hoveredElementName;
 
         labelConfig.visible = true;
     }
@@ -60,32 +58,31 @@
     }
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
         {#each circles as config}
             <Circle
-                {config}
+                {...config}
                 onmouseenter={handleMouseEnter}
                 onmouseleave={handleMouseLeave}
             />
         {/each}
 
-        <Label config={labelConfig}>
+        <Label {...labelConfig}>
             <Tag
-                config={{
-                    fill: "black",
-                    pointerDirection: "down",
-                    pointerWidth: 10,
-                    pointerHeight: 10,
-                    lineJoin: "round",
-                    shadowColor: "black",
-                    shadowBlur: 10,
-                    shadowOffsetX: 10,
-                    shadowOffsetY: 10,
-                    shadowOpacity: 0.5,
-                }}
+                fill="black"
+                ,
+                pointerDirection="down"
+                pointerWidth={10}
+                pointerHeight={10}
+                lineJoin="round"
+                shadowColor="black"
+                shadowBlur={10}
+                shadowOffsetX={10}
+                shadowOffsetY={10}
+                shadowOpacity={0.5}
             />
-            <Text config={labelTextConfig} />
+            <Text text={labelText} fontSize={18} padding={5} fill="white" />
         </Label>
     </Layer>
 </Stage>

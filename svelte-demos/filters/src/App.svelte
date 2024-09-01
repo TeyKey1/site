@@ -13,26 +13,24 @@
     }
 
     onMount(async () => {
-        // wait for the rectangle handle to be rendered and become defined
+        // wait for the rectangle handle to be rendered before caching it
         await tick();
 
         rectangle.handle.cache();
     });
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
         <Rect
-            config={{
-                filters: [Konva.Filters.Noise],
-                noise: 1,
-                x: 10,
-                y: 10,
-                width: 50,
-                height: 50,
-                fill: color,
-                shadowBlur: 10,
-            }}
+            filters={[Konva.Filters.Noise]}
+            noise={1}
+            x={10}
+            y={10}
+            width={50}
+            height={50}
+            fill={color}
+            shadowBlur={10}
             bind:this={rectangle}
             onmousemove={handleMouseMove}
         />

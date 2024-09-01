@@ -37,32 +37,25 @@
     }
 </script>
 
-<Stage
-    config={{ width: window.innerWidth, height: window.innerHeight }}
-    bind:this={stage}
->
+<Stage width={window.innerWidth} height={window.innerHeight} bind:this={stage}>
     <Layer>
         <Rect
-            config={{
-                width: 50,
-                height: 50,
-                fill: "green",
-                draggable: true,
-            }}
+            width={50}
+            height={50}
+            fill="green"
+            draggable
             bind:this={rect}
             ondragstart={changeSize}
             ondragend={changeSize}
         />
         <RegularPolygon
-            config={{
-                x: 200,
-                y: 200,
-                sides: 6,
-                radius: 20,
-                fill: "red",
-                stroke: "black",
-                strokeWidth: 4,
-            }}
+            x={200}
+            y={200}
+            sides={6}
+            radius={20}
+            fill="red"
+            stroke={"black"}
+            strokeWidth={4}
             bind:this={hexagon}
         />
     </Layer>

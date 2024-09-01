@@ -12,8 +12,8 @@
     });
 </script>
 
-<Stage config={{ width: window.innerWidth, height: window.innerHeight }}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
-        <Image config={{ image }} />
+        <Image {image} />
     </Layer>
 </Stage>

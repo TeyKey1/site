@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { Stage, Layer, Star } from "svelte-konva";
 
-    const list = [];
+    const list = $state([]);
     let dragItemId = $state(null);
 
     const config = $state({
@@ -33,42 +33,32 @@
         const item = list.find((i) => i.id === dragItemId);
         item.component.handle.moveToTop();
     };
-    let handleDragEnd = (e) => {
-        const item = list.find((i) => i.id === dragItemId);
-        if (!item) {
-            return;
-        }
-        item.x = e.target.x();
-        item.y = e.target.y();
+    let handleDragEnd = () => {
         dragItemId = null;
     };
 </script>
 
-<Stage {config}>
+<Stage {...config}>
     <Layer>
         {#each list as item (item.id)}
             <Star
-                config={{
-                    x: item.x,
-                    y: item.y,
-                    rotation: item.rotation,
-                    id: item.id,
-                    numPoints: 5,
-                    innerRadius: 30,
-                    outerRadius: 50,
-                    fill: "#89b717",
-                    opacity: 0.8,
-                    draggable: true,
-                    scaleX:
-                        dragItemId === item.id ? item.scale * 1.2 : item.scale,
-                    scaleY:
-                        dragItemId === item.id ? item.scale * 1.2 : item.scale,
-                    shadowColor: "black",
-                    shadowBlur: 10,
-                    shadowOffsetX: dragItemId === item.id ? 15 : 5,
-                    shadowOffsetY: dragItemId === item.id ? 15 : 5,
-                    shadowOpacity: 0.6,
-                }}
+                bind:x={item.x}
+                bind:y={item.y}
+                rotation={item.rotation}
+                id={item.id}
+                numPoints={5}
+                innerRadius={30}
+                outerRadius={50}
+                fill="#89b717"
+                opacity{0.8}
+                draggable
+                scaleX={dragItemId === item.id ? item.scale * 1.2 : item.scale}
+                scaleY={dragItemId === item.id ? item.scale * 1.2 : item.scale}
+                shadowColor="black"
+                shadowBlur={10}
+                shadowOffsetX={dragItemId === item.id ? 15 : 5}
+                shadowOffsetY={dragItemId === item.id ? 15 : 5}
+                shadowOpacity={0.6}
                 bind:this={item.component}
                 ondragstart={handleDragStart}
                 ondragend={handleDragEnd}

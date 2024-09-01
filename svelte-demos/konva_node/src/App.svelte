@@ -32,26 +32,19 @@
 </script>
 
 <Stage
-    config={{ width: window.innerWidth, height: window.innerHeight }}
+    width={window.innerWidth}
+    height={window.innerHeight}
     onclick={handleStageClick}
     ontap={handleStageClick}
 >
     <Layer>
-        <Text
-            config={{
-                x: 10,
-                y: 10,
-                text: "Click on any place to see an animation",
-            }}
-        />
+        <Text x={10} y={10} text="Click on any place to see an animation" />
 
         <Circle
-            config={{
-                x: window.innerWidth / 2,
-                y: window.innerHeight / 2,
-                radius: 80,
-                fill: "red",
-            }}
+            x={window.innerWidth / 2}
+            y={window.innerHeight / 2}
+            radius={80}
+            fill="red"
             onclick={handleCircleClick}
             ontap={handleCircleClick}
             ondblclick={handleCircleClick}

@@ -42,17 +42,14 @@
 
 <div>
     <Stage
-        config={{
-            width: window.innerWidth,
-            height: window.innerHeight,
-            draggable: false,
-        }}
+        width={window.innerWidth}
+        height={window.innerHeight}
         onclick={handleClick}
         ontap={handleClick}
     >
         <Layer>
             {#each list as config}
-                <Circle {config} />
+                <Circle {...config} />
             {/each}
         </Layer>
     </Stage>

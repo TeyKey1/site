@@ -92,13 +92,14 @@
 </script>
 
 <Stage
-    config={{ width: window.innerWidth, height: window.innerHeight }}
+    width={window.innerWidth}
+    height={window.innerHeight}
     onmousedown={handleStageMouseDown}
     ontouchstart={handleStageMouseDown}
 >
     <Layer>
         {#each rectangles as rectangle}
-            <Rect config={rectangle} ontransformend={handleTransformEnd} />
+            <Rect {...rectangle} ontransformend={handleTransformEnd} />
         {/each}
         <Transformer bind:this={transformer} />
     </Layer>
