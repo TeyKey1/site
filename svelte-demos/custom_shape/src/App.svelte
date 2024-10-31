@@ -2,7 +2,7 @@
     import { Stage, Layer, Shape } from "svelte-konva";
 </script>
 
-<Stage width{window.innerWidth} height={window.innerHeight}>
+<Stage width={window.innerWidth} height={window.innerHeight}>
     <Layer>
         <Shape
             width={260}

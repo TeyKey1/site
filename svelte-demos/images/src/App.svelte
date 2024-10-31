@@ -3,6 +3,7 @@
     import { Stage, Layer, Image } from "svelte-konva";
 
     let image = $state(null);
+
     onMount(() => {
         const img = document.createElement("img");
         img.src = "https://konvajs.org/assets/yoda.jpg";

@@ -1,5 +1,5 @@
 <script>
-    import { onMount, tick } from "svelte";
+    import { onMount } from "svelte";
     import { Stage, Layer, Group, Star } from "svelte-konva";
 
     let group = $state();
