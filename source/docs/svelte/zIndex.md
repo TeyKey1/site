@@ -10,17 +10,17 @@ Instead you should use the Konva native functions to perform dynamic reordering 
 ### Using if-blocks
 svelte-konva will follow the initial ordering of the components to draw the shapes on the canvas. This works fine in cases where you do not need to change the ordering dynamically during runtime. When using Svelte if-blocks to show/hide certain components you should know the following caveat. Consider the following example:
 ```
-<Stage bind:config={stageConfig}>
+<Stage {...stageConfig}>
     <Layer>
-        <Rect bind:config={rectConfig} />
+        <Rect config={...rectConfig} />
         {#if showRing}
-            <Ring bind:config={ringConfig}/>
+            <Ring config={...ringConfig}/>
         {/if}
-        <Circle bind:config={circleConfig} />
+        <Circle config={...circleConfig} />
     </Layer>
 </Stage>
 ```
-Based on the ordering one would expect to see the circle drawn on the top of the canvas, followed by the ring and then the rect shapes. However, due to the if-block the ring might end up at the top of the canvas depending on the initial value and changes of `showRing`. This is caused by Svelte mounting/unmounting components inside if-blocks and svelte-konva drawing the shapes during mounting at the top of the canvas. If you want to avoid this behavior you should avoid Svelte if-blocks and use the `visible` config property to control whether a shape is visible or not. This way the component is not mounted/unmounted and maintains its initial drawing order on the canvas.
+Based on the ordering one would expect to see the circle drawn on the top of the canvas, followed by the ring and then the rect shapes. However, due to the if-block the ring might end up at the top of the canvas depending on the initial value and changes of `showRing`. This is caused by Svelte mounting/unmounting components inside if-blocks and svelte-konva drawing the shapes during mounting at the top of the canvas. If you want to avoid this behavior you should avoid Svelte if-blocks and use the `visible` prop to control whether a shape is visible or not. This way the component is not mounted/unmounted and maintains its initial drawing order on the canvas.
 
 Instructions: Try to drag a circle. See how it goes to the top. This is done by calling `moveToTop()` on the dragged shape handle.
 

@@ -5,7 +5,7 @@ layout: svelte_page
 
 If you want to cache a node in a Svelte app, you need to have an access to Konva node and use `node.cache()` function.
 
-To get access to a node you can use the `handle` prop. See [Konva Node](/docs/svelte/Konva_Node.html) for more information.
+To get access to a node you can use the component instance's `handle` property. See [Konva Node](/docs/svelte/Konva_Node.html) for more information.
 
 **Instruction: try to drag whole stage. Then try again with cached group.**
 

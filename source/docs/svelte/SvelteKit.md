@@ -35,16 +35,16 @@ _MyCanvas.svelte_
   };
 </script>
 
-<Stage config={{ width: 1000, height: 1000 }}>
+<Stage width={1000} height={1000}>
   <Layer>
-    <Rect bind:config={rectangleConfig} />
+    <Rect {...rectangleConfig} />
 
     <OtherComponentUsingSvelteKonva />
   </Layer>
 </Stage>
 ```
 
-To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it using `<svelte:component>`:
+To use this component inside a SvelteKit prerendered/SSR page you can dynamically import it inside `onMount()` and render it once it becomes defined:
 
 _+page.svelte_
 
@@ -54,9 +54,9 @@ _+page.svelte_
   // typescript:
   // import type MyCanvasComponent from '$lib/MyCanvas.svelte';
 
-  let MyCanvas;
+  let MyCanvas = $state();
   // typescript:
-  // let MyCanvas: typeof MyCanvasComponent;
+  // let MyCanvas: typeof MyCanvasComponent | undefined = $state();
 
   onMount(async () => {
     // Dynamically import your canvas component encapsulating all svelte-konva functionality inside onMount()
@@ -67,8 +67,10 @@ _+page.svelte_
 <div>
   <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-  <svelte:component this={MyCanvas} someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
+  {#if MyCanvas}
+    <MyCanvas someProp="SomeString" />
+  {/if}
 </div>
 ```
 
@@ -89,8 +91,10 @@ _+page.svelte_
 <div>
   <p>This is my fancy server side rendered (or prerendered) page.</p>
 
-  <!-- Use your dynamically imported svelte-konva canvas component with a svelte:component block, you can pass any component props as usual -->
-  <svelte:component this={MyCanvas} someProp="SomeString" />
+  <!-- Use your dynamically imported svelte-konva canvas component once it becomes defined, you can pass any component props as usual -->
+  {#if MyCanvas}
+    <MyCanvas someProp="SomeString" />
+  {/if}
 </div>
 ```
 
